@@ -84,9 +84,9 @@ function Items() {
 function Item(props) {
   let cardSize = (size) => {
     if (size) {
-      return "card border-success mb-3 h-" + size;
+      return "main-card card border-success mb-3 h-" + size;
     } else {
-      return "card border-success mb-3";
+      return "main-card card border-success mb-3";
     }
   };
   return (

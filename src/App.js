@@ -9,17 +9,15 @@ function App() {
   const [cart, setCart] = React.useState([]);
   const [items, setItems] = React.useState([]);
   return (
-    <div className="app container">
+    <div className="app">
       <StackItems.Provider value={[items, setItems]}>
         <CartItems.Provider value={[cart, setCart]}>
-          <div className="row">
-            <div className="col-10">
+            <div className="left">
               <Items />
             </div>
-            <div className="col-2">
+            <div className="right">
               <Cart />
             </div>
-          </div>
         </CartItems.Provider>
       </StackItems.Provider>
     </div>

@@ -92,7 +92,9 @@ function Cart(props) {
   <Total />
   <br/>
   <CheckoutButton />
+  <div className="mini-card">
   {output}
+  </div>
   </>;
 }
 

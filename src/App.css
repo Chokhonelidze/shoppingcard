@@ -58,3 +58,71 @@
 .item {
   margin-top: 10px;
 }
+
+.app {
+  display: grid;
+  grid-template-columns: 4fr,1fr;
+}
+.left {
+  grid-column: 1;
+}
+.right {
+  grid-column: 2;
+}
+
+@media screen and (min-width: 900px) {
+  .items {
+    grid-template-columns: 1fr;
+    grid-gap: 6px;
+    width:100%;
+    
+  }
+  .app {
+    grid-template-columns: 4fr,1fr;
+  }
+  .right {
+    grid-column: 2;
+    margin-left:20px
+  }
+  .mini-card {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(60px,160px));
+    grid-gap: 6px;
+  }
+  .main-card {
+    width:15rem;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .app {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .right {
+    grid-column: 1;
+    margin-left:20px;
+    grid-row :2;
+  }
+  .mini-card {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(60px,160px));
+    grid-gap: 6px;
+  }
+}
+@media screen and (min-width: 200px) {
+  .app {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .right {
+    grid-column: 1;
+    margin-left:20px;
+    grid-row :2;
+  }
+  .mini-card {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(60px,160px));
+    grid-gap: 6px;
+  }
+}
