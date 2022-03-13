@@ -51,7 +51,7 @@ function Cart(props) {
           <div className="card-body">
             <h5 className="card-title">{items[item].name}</h5>
             <p className="card-text">
-              Price : {items[item].price}$ <br />
+              Price : {Math.round(items[item].price*100)/100}$ <br />
             </p>
           </div>
         </div>

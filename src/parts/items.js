@@ -94,11 +94,11 @@ function Item(props) {
         ""
       )}
       <div className="card-body">
-        <h5 className="card-title">{props.props.name}</h5>
+        <h5 className="card-title">{props.props.name} </h5>
         <p className="card-text">{props.props.info}</p>
       </div>
       <div className="card-footer">
-        <small className="text-muted">Value :{props.props.price}$</small>
+        <small className="text-muted">Value :{Math.round(props.props.price*100)/100}$</small>
         <br />
         <small className="text-muted">In stack :{props.props.stack}</small>
         <br />
