@@ -8,13 +8,21 @@ var API = process.env.API ? process.env.API : "/api";
 
 
 function AddItems() {
-  const [stack, setStack] = React.useState({});
+  const [stack, setStack] = React.useState({     
+          name:'',
+          discount: '',
+          info : '',
+          value: '',
+          img :'',
+          price:'',
+          weight:''
+  });
   const [error,setErrors] = React.useState();
 
   function change(event) {
     let id = event.target.name;
     let value = event.target.value;
-    let newStack = stack;
+    let newStack = {...stack};
     newStack[id] = value;
     setStack(newStack);
     if (id === "discount") {
