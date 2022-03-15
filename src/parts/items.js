@@ -82,6 +82,7 @@ function Items() {
 }
 
 function Item(props) {
+  const noimage =`https://media.istockphoto.com/vectors/image-preview-icon-picture-placeholder-for-website-or-uiux-design-vector-id1222357475?k=20&m=1222357475&s=612x612&w=0&h=jPhUdbj_7nWHUp0dsKRf4DMGaHiC16kg_FSjRRGoZEI=`;
   let cardSize = (size) => {
     if (size) {
       return "main-card card border-success mb-3 h-" + size;
@@ -96,7 +97,7 @@ function Item(props) {
       style={{ maxWidth: props.width }}
       onClick={() => props.removeItem(props.props.id)}
     >
-      <img src={props.props.img} className="card-img-top" alt="..." />
+      <img src={props.props.img?props.props.img:noimage} className="card-img-top" alt="..." />
       {props.props.discount ? (
         <div className="sale">FOR SALE {props.props.discount}%</div>
       ) : (
@@ -112,6 +113,8 @@ function Item(props) {
         </small>
         <br />
         <small className="text-muted">In stack :{props.props.stack}</small>
+        <br />
+        <small className="text-muted">Weight :{props.props.weight}</small>
         <br />
       </div>
     </div>

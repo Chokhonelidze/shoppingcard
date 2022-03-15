@@ -69,7 +69,7 @@
 .right {
   grid-column: 2;
 }
-.main-card {
+.mini-card {
   cursor: not-allowed;
 }
 @media screen and (max-width: 1000px) {

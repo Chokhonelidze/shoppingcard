@@ -34,7 +34,7 @@ function AddItems() {
       .post(`${server}${API}/Items`, stack)
       .then((res) => {
         console.log("success", res);
-        setStack([]);
+        setStack({});
       })
       .catch((error) => {
         setErrors(error);
@@ -42,7 +42,8 @@ function AddItems() {
   }
   return (
     <div className="container">
-      <div className="form-group">
+      <div className="row">
+      <div className="form-group col-7">
         <div className="form-control">
           Name : <br />
           <input
@@ -70,6 +71,16 @@ function AddItems() {
             name="price"
             placeholder="What is price of product"
             value={stack.price}
+            onChange={change}
+          />
+        </div>
+        <div className="form-control">
+          Weight : <br />
+          <input
+            type="number"
+            name="weight"
+            placeholder="products weight"
+            value={stack.weight}
             onChange={change}
           />
         </div>
@@ -119,7 +130,10 @@ function AddItems() {
           </button>
         </div>
       </div>
+      <div className="col-4">
       <Item props={stack} height="100" width="18rem" removeItem={() => {}} />
+      </div>
+      </div>
     </div>
   );
 }
