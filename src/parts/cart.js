@@ -1,107 +1,170 @@
 import React from "react";
 import axios from "axios";
-import { CartItems,StackItems } from "../App";
-import {bestSelection} from "./algorithms"
+import { CartItems, StackItems } from "../App";
+import { bestSelection } from "./algorithms";
 
 var server = process.env.REACT_APP_SERVER
   ? process.env.REACT_APP_SERVER
   : "http://localhost:3000";
-  var API = process.env.API ? process.env.API : "/api";
-
+var API = process.env.API ? process.env.API : "/api";
 
 function Cart(props) {
   const [items, setItems] = React.useContext(CartItems);
-  const [stack,setStack] = React.useContext(StackItems);
-  const [error,setErrors] = React.useState();
+  const [stack, setStack] = React.useContext(StackItems);
+  const [error, setErrors] = React.useState();
+  const [weight,setWeight] = React.useState(0);
 
   async function updateItem(item) {
     await axios
-         .put(`${server}${API}/Items`, item)
-         .then((res) => {
-           console.log("success",res);
-           setItems([]);
-         })
-         .catch((error) => {
-           setErrors(error);
-         });
-   }
+      .put(`${server}${API}/Items`, item)
+      .then((res) => {
+        console.log("success", res);
+        setItems([]);
+      })
+      .catch((error) => {
+        setErrors(error);
+      });
+  }
   function checkout() {
-    Object.keys(stack).forEach((item,index)=>{
+    Object.keys(stack).forEach((item, index) => {
       updateItem(stack[item]);
     });
   }
-  let CheckoutButton = () =>{
-    return <>
-    {error?(<h6 className="text-worning">{error}</h6>):''}
-    {items.length?(<button className="btn btn-primary" onClick={checkout}>Checkout</button>):''}
-    </>;
+  let CheckoutButton = () => {
+    return (
+      <>
+        {error ? <h6 className="text-worning">{error}</h6> : ""}
+        {items.length ? (
+          <button className="btn btn-primary" onClick={checkout}>
+            Checkout
+          </button>
+        ) : (
+          ""
+        )}
+      </>
+    );
+  };
+  let weightChange = (event) =>{
+    setWeight(event.target.value);
   }
-  let autoSelect=(W)=>{
-    bestSelection(stack,W);
-  }
-  let removeItem = (id) => {
-      let newStack = Object.keys(stack).map((item,index) => {
-          if(stack[item].id === id) {
-              let obj = stack[item];
-              obj.stack ++;
-              return obj;
+  let autoSelect = () => {
+    let ids = bestSelection(stack, weight);
+    let arr = {};
+    ids.forEach((item) => {
 
+      if (arr[item]) return arr[item]++;
+      else return (arr[item] = 1);
+    });
+ 
+    moveAll(arr);
+    function moveAll(arr) {
+      let cards = [];
+     
+      Object.keys(arr).forEach((obj)=>{
+        let newStack= [...stack];
+        newStack.map((st)=>{
+          if(Number(st.id) === Number(obj)){
+            let cartItem = {
+              name: st.name,
+              id: st.id,
+              price: st.price,
+              img: st.img,
+            };
+            let i =0;
+            while(i<arr[obj]){
+              cards.push(cartItem);
+              i++;
+            }
+            let stackObject =st;
+            stackObject.stack = stackObject.stack - arr[obj] ;  
+            return stackObject ;
           }
           else{
-              return stack[item];
+            return st;
           }
+        });
+        setStack(newStack);    
+        setItems([...items,...cards]);
       });
-      setStack(newStack);
-      let deleted = false;
-      let newItems =[]; 
-      Object.keys(items).forEach((item)=>{
-          if(items[item].id === id && !deleted ){
-              deleted = true;
-          }
-          else {
-              newItems.push(items[item]);
-          }
-      });
+    }
+  };
+  let removeItem = (id) => {
+    let newStack = Object.keys(stack).map((item, index) => {
+      if (stack[item].id === id) {
+        let obj = stack[item];
+        obj.stack++;
+        return obj;
+      } else {
+        return stack[item];
+      }
+    });
+    setStack(newStack);
+    let deleted = false;
+    let newItems = [];
+    Object.keys(items).forEach((item) => {
+      if (items[item].id === id && !deleted) {
+        deleted = true;
+      } else {
+        newItems.push(items[item]);
+      }
+    });
 
-      setItems(newItems);
+    setItems(newItems);
   };
 
-  let Total = () =>{
-      let sum = 0;
-      Object.keys(items).forEach((obj,index)=>{
-          sum = Math.round((sum + items[obj].price)*100)/100;
-      });
-      return (<h6 className="text-info">Total : {sum}$</h6>);
-  }
+  let Total = () => {
+    let sum = 0;
+    Object.keys(items).forEach((obj, index) => {
+      sum = Math.round((sum + items[obj].price) * 100) / 100;
+    });
+    return <h6 className="text-info">Total : {sum}$</h6>;
+  };
 
   let output = Object.keys(items).map((item, index) => {
     return (
-        <div key={index} className="card" style={{ width: "10rem" }} onClick={()=>{removeItem(items[item].id)}}>
-          <img
-            src={items[item].img}
-            className="img-fluid img-thumbnail"
-            alt="..."
-          />
-          <div className="card-body">
-            <h5 className="card-title">{items[item].name}</h5>
-            <p className="card-text">
-              Price : {Math.round(items[item].price*100)/100}$ <br />
-            </p>
-          </div>
+      <div
+        key={index}
+        className="card"
+        style={{ width: "10rem" }}
+        onClick={() => {
+          removeItem(items[item].id);
+        }}
+      >
+        <img
+          src={items[item].img}
+          className="img-fluid img-thumbnail"
+          alt="..."
+        />
+        <div className="card-body">
+          <h5 className="card-title">{items[item].name}</h5>
+          <p className="card-text">
+            Price : {Math.round(items[item].price * 100) / 100}$ <br />
+          </p>
         </div>
+      </div>
     );
   });
-
-  return <>
-  <Total />
-  <br/>
-  <CheckoutButton />
-  <button className='btn btn-secondary' onClick={()=>{
-    autoSelect(10);}}>Max Value</button>
-  <div className="mini-card">
-  {output}
-  </div>
-  </>;
+let panel =
+    <div className="card">
+      <input type='text' name = 'cardName' value={weight} onChange={weightChange} placeholder='enter weight'/>
+      <button
+        className="btn btn-secondary"
+        onClick={autoSelect}
+      >
+        Get The Best Deal
+      </button>
+    </div>
+    
+  
+  return (
+    <>
+      <Total />
+      <br />
+      <CheckoutButton />
+      <div className="mini-card">{output}</div>
+      {panel}
+    </>
+  );
 }
 
 export default Cart;
