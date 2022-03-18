@@ -72,6 +72,13 @@
 .mini-card {
   cursor: not-allowed;
 }
+.list-card {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(60px,160px));
+  grid-gap: 6px;
+  width:100%;
+
+}
 @media screen and (max-width: 1000px) {
   .items {
     grid-template-columns: 1fr;

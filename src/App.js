@@ -20,7 +20,7 @@ function App() {
          <Routes>
          <Route path="/" exact element={<Home />} />
          <Route path="/addItems" element={<AddItems />} />
-         <Route path="/addItems" element={<UpdateItems />} />
+         <Route path="/stackItems" element={<UpdateItems />} />
          </Routes>
         </CartItems.Provider>
       </StackItems.Provider>
