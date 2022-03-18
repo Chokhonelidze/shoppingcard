@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { CartItems,StackItems } from "../App";
+import {bestSelection} from "./algorithms"
 
 var server = process.env.REACT_APP_SERVER
   ? process.env.REACT_APP_SERVER
@@ -34,6 +35,9 @@ function Cart(props) {
     {error?(<h6 className="text-worning">{error}</h6>):''}
     {items.length?(<button className="btn btn-primary" onClick={checkout}>Checkout</button>):''}
     </>;
+  }
+  let autoSelect=(W)=>{
+    bestSelection(stack,W);
   }
   let removeItem = (id) => {
       let newStack = Object.keys(stack).map((item,index) => {
@@ -92,6 +96,8 @@ function Cart(props) {
   <Total />
   <br/>
   <CheckoutButton />
+  <button className='btn btn-secondary' onClick={()=>{
+    autoSelect(10);}}>Max Value</button>
   <div className="mini-card">
   {output}
   </div>
