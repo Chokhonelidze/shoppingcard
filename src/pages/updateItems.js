@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Item } from "../parts/items";
+import Loading from "../parts/loading";
 
 var server = process.env.REACT_APP_SERVER
   ? process.env.REACT_APP_SERVER
@@ -43,8 +44,14 @@ function UpdateItems() {
     });
     return (
       <>
-        <h1>Select an item you want to restuck</h1>
-        <div className="list-card">{output}</div>
+        {isLoaded && !error && (
+          <>
+            <h1>Select an item you want to restuck</h1>
+            <div className="list-card">{output}</div>
+          </>
+        )}
+        {isLoaded && error && <><h2>{error}</h2></>}
+        {!isLoaded && <Loading />}
       </>
     );
   }
@@ -62,7 +69,7 @@ function UpdateItems() {
       }
       event.preventDefault();
     }
-   async function handleSubmit() {
+    async function handleSubmit() {
       await axios
         .put(`${server}${API}/Items`, edit2)
         .then((res) => {
@@ -131,7 +138,7 @@ function UpdateItems() {
                     className="btn btn-primary"
                     onClick={handleSubmit}
                   >
-                    Update Product 
+                    Update Product
                   </button>
                 </div>
               </div>

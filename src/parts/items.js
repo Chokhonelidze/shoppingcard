@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import "../App.css";
 import { CartItems, StackItems } from "../App";
+import Loading from "./loading";
 var server = process.env.REACT_APP_SERVER
   ? process.env.REACT_APP_SERVER
   : "http://localhost:3000";
@@ -77,6 +78,9 @@ function Items() {
     });
   } else if (isLoaded && errors) {
     display = errors;
+  }
+  else if(!isLoaded){
+    display = <Loading />
   }
   return <div className="items">{display}</div>;
 }
