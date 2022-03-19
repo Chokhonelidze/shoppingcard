@@ -31,22 +31,26 @@ function Cart(props) {
     });
   }
   function clear() {
-   Object.keys(items).forEach((item)=>{
-     let objects = [...stack];
-     let newStack = objects.map((obj)=>{
-       if(item.id === obj.id){
-         let nItem = {...obj};
-         nItem.stack += 1;
-         return nItem;
-       }
-       else{
-         return obj;
-       }
-     });
-     setStack(newStack);
-     setItems([]);
-
-   })
+   let newItems = {};
+  Object.keys(items).forEach((item)=>{
+    if(newItems[items[item].id]) newItems[items[item].id]++;
+    else newItems[items[item].id] = 1;
+  })
+  let newStack = {...stack};
+  Object.keys(newItems).forEach((id)=>{
+    newStack = Object.keys(newStack).map((st)=>{
+      if(Number(newStack[st].id) === Number(id)){
+        let obj = {...newStack[st]};
+        obj.stack += newItems[id];
+        return obj;
+      }
+      else{
+        return newStack[st];
+      }
+    });
+  });
+  setStack(newStack);
+  setItems('');
   }
   let CheckoutButton = () => {
     return (
@@ -63,7 +67,7 @@ function Cart(props) {
           </>
         ) : (
           ""
-        )}
+        )} 
       </>
     );
   };
