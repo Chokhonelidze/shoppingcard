@@ -1,4 +1,5 @@
 let bestSelection = (items, W) => {
+  
   function price(price, discount) {
     if (discount) {
       return price;
@@ -6,6 +7,7 @@ let bestSelection = (items, W) => {
       return price - (price / 100) * discount;
     }
   }
+  
   let objects = [];
   Object.keys(items).forEach((item, index) => {
     let obj = {};

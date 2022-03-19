@@ -12,7 +12,7 @@ function Cart(props) {
   const [items, setItems] = React.useContext(CartItems);
   const [stack, setStack] = React.useContext(StackItems);
   const [error, setErrors] = React.useState();
-  const [weight,setWeight] = React.useState(0);
+  const [weight,setWeight] = React.useState('');
 
   async function updateItem(item) {
     await axios
@@ -30,14 +30,37 @@ function Cart(props) {
       updateItem(stack[item]);
     });
   }
+  function clear() {
+   Object.keys(items).forEach((item)=>{
+     let objects = [...stack];
+     let newStack = objects.map((obj)=>{
+       if(item.id === obj.id){
+         let nItem = {...obj};
+         nItem.stack += 1;
+         return nItem;
+       }
+       else{
+         return obj;
+       }
+     });
+     setStack(newStack);
+     setItems([]);
+
+   })
+  }
   let CheckoutButton = () => {
     return (
       <>
         {error ? <h6 className="text-worning">{error}</h6> : ""}
         {items.length ? (
+          <>
           <button className="btn btn-primary" onClick={checkout}>
             Checkout
           </button>
+          <button className="btn btn-warning " style={{marginLeft:"4px"}} onClick={clear}>
+            clear All
+          </button>
+          </>
         ) : (
           ""
         )}
