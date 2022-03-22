@@ -58,7 +58,9 @@
 .item {
   margin-top: 10px;
 }
-
+.item:hover {
+  filter: drop-shadow(2px 4px 6px black);
+}
 .app {
   display: grid;
   grid-template-columns: 4fr,1fr;
