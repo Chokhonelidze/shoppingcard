@@ -103,7 +103,7 @@ function Popup(props) {
                 return selectedOption;
               }}
             />
-            {deposit && (
+            {deposit ? (
               <input
                 style={{ width: "100%" }}
                 type="password"
@@ -112,8 +112,8 @@ function Popup(props) {
                 onChange={(e) => {
                   setPassword(e.target.value);
                 }}
-              ></input>
-            )}
+              />
+            ):''}
             <button className="btn btn-primary" onClick={handleCheckout}>
               Checkout
             </button>

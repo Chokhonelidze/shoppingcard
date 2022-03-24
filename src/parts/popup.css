@@ -44,3 +44,23 @@
     margin-left: 5rem;
     margin-top: 2rem;
   }
+
+  @media screen and (max-width: 750px) {
+    .popup_open {  
+        position: absolute;  
+        left: 5%;  
+        right: 5%;  
+        top: 5%;  
+        bottom: 5%;  
+        margin: auto;  
+        border-radius: 20px;  
+        background: white;  
+      }
+      .total {
+        margin-left: 2rem; 
+      }
+      .users {
+        margin-left: 2rem; 
+        width:80%
+      }
+  }
