@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { CartItems, StackItems } from "../App";
 import { bestSelection } from "./algorithms";
 
@@ -11,24 +10,12 @@ var API = process.env.API ? process.env.API : "/api";
 function Cart(props) {
   const [items, setItems] = React.useContext(CartItems);
   const [stack, setStack] = React.useContext(StackItems);
-  const [error, setErrors] = React.useState();
+  const [error, setErrors] = React.useState('');
   const [weight,setWeight] = React.useState('');
 
-  async function updateItem(item) {
-    await axios
-      .put(`${server}${API}/Items`, item)
-      .then((res) => {
-        console.log("success", res);
-        setItems([]);
-      })
-      .catch((error) => {
-        setErrors(error);
-      });
-  }
-  function checkout() {
-    Object.keys(stack).forEach((item, index) => {
-      updateItem(stack[item]);
-    });
+
+  function checkout() { 
+   props.showPopup();
   }
   function clear() {
    let newItems = {};
