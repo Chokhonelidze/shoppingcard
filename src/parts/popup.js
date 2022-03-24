@@ -137,6 +137,7 @@ function Popup(props) {
         </button>
         <div className="total">
           <h2>Total : {total}$</h2>
+          </div>
           {isLoaded ? (
             <div className="users">
               <Accounts checkout={checkout} close={props.close} />
@@ -144,7 +145,6 @@ function Popup(props) {
           ) : (
             ""
           )}
-        </div>
       </div>
     </div>
   );
