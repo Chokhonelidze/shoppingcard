@@ -1,7 +1,7 @@
 {
-  "name": "myshoppingcard",
-  "homepage": "http://chokhonelidze.github.io/shoppingcard",
-  "version": "0.0.2",
+  "name": "myshoppingcart",
+  "homepage": "http://chokhonelidze.github.io/shoppingcart",
+  "version": "0.0.3",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",
@@ -50,7 +50,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Chokhonelidze/shoppingcard.git"
+    "url": "git+ssh://git@github.com/Chokhonelidze/shoppingcart.git"
   },
   "keywords": [
     "React",
@@ -60,7 +60,7 @@
   "author": "George",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Chokhonelidze/shopingcard/issues"
+    "url": "https://github.com/Chokhonelidze/shopingcart/issues"
   },
   "devDependencies": {
     "gh-pages": "^3.2.3"
