@@ -3,16 +3,19 @@ import axios from "axios";
 import "../App.css";
 import { CartItems, StackItems } from "../App";
 import Loading from "./loading";
+import { recomposeColor } from "@mui/material";
 var server = process.env.REACT_APP_SERVER
   ? process.env.REACT_APP_SERVER
   : "http://localhost:3000";
 var API = process.env.API ? process.env.API : "/api";
 
+function calcPrice(inprice, discount) {     
+  return inprice-(inprice/100*discount);  
+}
 function Items() {
   const [items, setItems] = React.useContext(StackItems);
   const [isLoaded, setLoaded] = React.useState(false);
   const [errors, setErrors] = React.useState();
-  const [discounted, setDiscounted] = React.useState(false);
   const [cart, setCart] = React.useContext(CartItems);
   const [sync, setSync] = React.useState(true);
   function removeItem(id) {
@@ -27,7 +30,7 @@ function Items() {
         let cartItem = {
           name: obj.name,
           id: obj.id,
-          price: obj.price,
+          price: calcPrice(obj.price,obj.discount),
           img: obj.img,
         };
         setCart([...cart, cartItem]);
@@ -36,14 +39,6 @@ function Items() {
       }
     });
     setItems(new_items);
-  }
-  function price(price, discount) {
-    if (discounted) {
-      return price;
-    } else {
-      setDiscounted(true);
-      return price - (price / 100) * discount;
-    }
   }
   React.useEffect(() => {
     console.log("Updated");
@@ -73,9 +68,6 @@ function Items() {
   let display = null;
   if (isLoaded && !errors) {
     display = Object.keys(items).map((item, index) => {
-      if (items[item].discount) {
-        items[item].price = price(items[item].price, items[item].discount);
-      }
       return (
         <div key={index}>
           {items[item].stack ? (
@@ -102,6 +94,10 @@ function Items() {
 }
 
 function Item(props) {
+  const [price,setPrice] = React.useState('');
+  React.useEffect(()=>{
+    setPrice(calcPrice(props.props.price,props.props.discount))
+  },[props.props.price,props.props.discount]);
   const noimage = `https://media.istockphoto.com/vectors/image-preview-icon-picture-placeholder-for-website-or-uiux-design-vector-id1222357475?k=20&m=1222357475&s=612x612&w=0&h=jPhUdbj_7nWHUp0dsKRf4DMGaHiC16kg_FSjRRGoZEI=`;
   let cardSize = (size) => {
     if (size) {
@@ -110,6 +106,8 @@ function Item(props) {
       return "main-card card border-success mb-3";
     }
   };
+
+
   return (
     <div
       className={cardSize(props.height)}
@@ -133,7 +131,7 @@ function Item(props) {
       </div>
       <div className="card-footer">
         <small className="text-muted">
-          Value :{Math.round(props.props.price * 100) / 100}$
+          Value :{Math.round(price * 100) / 100}$
         </small>
         <br />
         <small className="text-muted">In stack :{props.props.stack}</small>

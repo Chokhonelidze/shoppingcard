@@ -55,7 +55,7 @@ function UpdateItems() {
       </>
     );
   }
-  function EditItem() {
+  function EditItem({edit}) {
     const [edit2, setEdit2] = React.useState(edit);
     function change(event) {
       let id = event.target.name;
@@ -154,7 +154,7 @@ function UpdateItems() {
   return (
     <>
       {isLoaded ? <ListItems /> : ""}
-      {edit ? <EditItem /> : ""}
+      {edit ? <EditItem edit={edit}/> : ""}
     </>
   );
 }
