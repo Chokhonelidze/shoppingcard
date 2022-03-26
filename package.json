@@ -1,7 +1,7 @@
 {
   "name": "myshoppingcart",
   "homepage": "http://chokhonelidze.github.io/shoppingcart",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.8.2",
