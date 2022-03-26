@@ -2,7 +2,7 @@ import React from "react";
 import Tooltip from '@mui/material/Tooltip';
 function NavBar() {
   var [data,setData] = React.useState([
-    { href: "#", name: "Home", active: false ,info:"Shoping page"},
+    { href: "#", name: "Home", active: false ,info:"Shopping page"},
     { href: "#/addItems/", name: "Add new items", active: false,info:"Add new items from this page"},
     { href: "#/stackItems/", name: "Stack items", active: false,info:"Restuck existing items"},
   ]);
@@ -44,7 +44,7 @@ function NavBar() {
       <>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <a className="navbar-brand" href="#/">
-            Shoping Cart
+            Shopping Cart
           </a>
           <button
             className="navbar-toggler"
