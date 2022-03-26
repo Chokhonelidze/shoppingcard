@@ -14,6 +14,7 @@ function Items() {
   const [errors, setErrors] = React.useState();
   const [discounted, setDiscounted] = React.useState(false);
   const [cart, setCart] = React.useContext(CartItems);
+  const [sync, setSync] = React.useState(true);
   function removeItem(id) {
     let new_items = [];
     Object.keys(items).forEach((item, index) => {
@@ -45,6 +46,7 @@ function Items() {
     }
   }
   React.useEffect(() => {
+    console.log("Updated");
     axios
       .get(`${server}${API}/Items`)
       .then((res) => {
@@ -54,7 +56,20 @@ function Items() {
       .catch((error) => {
         setErrors(error);
       });
-  }, [setItems]);
+    setInterval(async () => {
+      await axios
+        .get(`${server}${API}/sync?id=Items`)
+        .then((res) => {
+          if (sync && sync !== res.data) {
+            setSync(res.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+          return;
+        });
+    }, 4000);
+  }, [setItems, sync]);
   let display = null;
   if (isLoaded && !errors) {
     display = Object.keys(items).map((item, index) => {
@@ -63,30 +78,31 @@ function Items() {
       }
       return (
         <div key={index}>
-        {items[item].stack ? (
-        <div className="item" >
-          <Item
-            props={items[item]}
-            height="100"
-            width="18rem"
-            removeItem={removeItem}
-          />
-        </div>
-        ) : '' }
+          {items[item].stack ? (
+            <div className="item">
+              <Item
+                props={items[item]}
+                height="100"
+                width="18rem"
+                removeItem={removeItem}
+              />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       );
     });
   } else if (isLoaded && errors) {
     display = errors;
-  }
-  else if(!isLoaded){
-    display = <Loading />
+  } else if (!isLoaded) {
+    display = <Loading />;
   }
   return <div className="items">{display}</div>;
 }
 
 function Item(props) {
-  const noimage =`https://media.istockphoto.com/vectors/image-preview-icon-picture-placeholder-for-website-or-uiux-design-vector-id1222357475?k=20&m=1222357475&s=612x612&w=0&h=jPhUdbj_7nWHUp0dsKRf4DMGaHiC16kg_FSjRRGoZEI=`;
+  const noimage = `https://media.istockphoto.com/vectors/image-preview-icon-picture-placeholder-for-website-or-uiux-design-vector-id1222357475?k=20&m=1222357475&s=612x612&w=0&h=jPhUdbj_7nWHUp0dsKRf4DMGaHiC16kg_FSjRRGoZEI=`;
   let cardSize = (size) => {
     if (size) {
       return "main-card card border-success mb-3 h-" + size;
@@ -101,7 +117,11 @@ function Item(props) {
       style={{ maxWidth: props.width }}
       onClick={() => props.removeItem(props.props.id)}
     >
-      <img src={props.props.img?props.props.img:noimage} className="card-img-top" alt="..." />
+      <img
+        src={props.props.img ? props.props.img : noimage}
+        className="card-img-top"
+        alt="..."
+      />
       {props.props.discount ? (
         <div className="sale">FOR SALE {props.props.discount}%</div>
       ) : (
