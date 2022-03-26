@@ -159,8 +159,9 @@ function Cart(props) {
     );
   });
 let panel =
-    <div className="card">
-      <input type='text' name = 'cardName' value={weight} onChange={weightChange} placeholder='enter weight'/>
+    <div className="Menu">
+      <input type='text' name = 'cartName' value={weight} onChange={weightChange} placeholder='enter weight'/>
+      <br/>
       <button
         className="btn btn-secondary"
         onClick={autoSelect}
