@@ -44,7 +44,17 @@
     margin-left: 5rem;
     margin-top: 2rem;
   }
-
+  .info_buttom {
+    position: absolute;
+    bottom: 10px;
+    margin-bottom: 20px;
+  }
+  @media  screen and (max-width: 1000px) {
+    .users{
+      width: 300px;
+    }
+    
+  }
   @media screen and (max-width: 750px) {
     .popup_open {  
         position: absolute;  

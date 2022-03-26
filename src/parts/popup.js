@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import "./popup.css";
 import { CartItems, StackItems } from "../App";
-import Loading from "./loading";
 import Select from "react-select";
 
 var server = process.env.REACT_APP_SERVER
@@ -89,6 +88,9 @@ function Popup(props) {
           password: "",
         };
       }
+      else{
+        return "";
+      }
     });
 
     return (
@@ -118,6 +120,10 @@ function Popup(props) {
               Checkout
             </button>
             <h5 className="text-warning">{error}</h5>
+            <div className="info_buttom text-info">
+              <h5>Don't have a bank account?</h5>
+              <a href="/BadBank/#/CreateAccount/">Open new Account</a>
+            </div>
           </>
         ) : (
           <div>
