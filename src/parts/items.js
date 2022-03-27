@@ -42,6 +42,7 @@ function Items() {
   }
   React.useEffect(() => {
     console.log("Updated");
+
     axios
       .get(`${server}${API}/Items`)
       .then((res) => {
@@ -51,8 +52,8 @@ function Items() {
       .catch((error) => {
         setErrors(error);
       });
-    setInterval(async () => {
-      await axios
+      let fo = async () =>{
+        await axios
         .get(`${server}${API}/sync?id=Items`)
         .then((res) => {
           if (sync && sync !== res.data) {
@@ -63,7 +64,10 @@ function Items() {
           console.log(error);
           return;
         });
-    }, 4000);
+        setInterval(fo, 4000);
+      }
+      fo();
+   
   }, [setItems, sync]);
   let display = null;
   if (isLoaded && !errors) {

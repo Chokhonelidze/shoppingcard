@@ -7,6 +7,10 @@ var server = process.env.REACT_APP_SERVER
   : "http://localhost:3000";
 var API = process.env.API ? process.env.API : "/api";
 
+
+function calcPrice(inprice, discount) {     
+  return inprice-(inprice/100*discount);  
+}
 function Cart(props) {
   const [items, setItems] = React.useContext(CartItems);
   const [stack, setStack] = React.useContext(StackItems);
@@ -81,7 +85,7 @@ function Cart(props) {
             let cartItem = {
               name: st.name,
               id: st.id,
-              price: st.price,
+              price: calcPrice(st.price,st.discount),
               img: st.img,
             };
             let i =0;
