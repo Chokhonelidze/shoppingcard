@@ -148,11 +148,10 @@ function Cart(props) {
           removeItem(items[item].id);
         }}
       >
-        <img   
+        <img
           src={items[item].img}
           className="img-fluid img-thumbnail"
           alt="..."
-          draggable='false'
         />
         <div className="card-body">
           <h5 className="card-title">{items[item].name}</h5>

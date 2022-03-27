@@ -123,7 +123,6 @@ function Item(props) {
         src={props.props.img ? props.props.img : noimage}
         className="card-img-top"
         alt="..."
-        draggable='false'
       />
       {props.props.discount ? (
         <div className="sale">FOR SALE {props.props.discount}%</div>
