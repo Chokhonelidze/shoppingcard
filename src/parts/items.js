@@ -3,7 +3,7 @@ import axios from "axios";
 import "../App.css";
 import { CartItems, StackItems } from "../App";
 import Loading from "./loading";
-import { recomposeColor } from "@mui/material";
+
 var server = process.env.REACT_APP_SERVER
   ? process.env.REACT_APP_SERVER
   : "http://localhost:3000";
@@ -47,26 +47,26 @@ function Items() {
       .get(`${server}${API}/Items`)
       .then((res) => {
         setItems(res.data);
+        if(sync !== true)
         setLoaded(true);
       })
       .catch((error) => {
         setErrors(error);
       });
-      let fo = async () =>{
+      setInterval(async () => {
         await axios
-        .get(`${server}${API}/sync?id=Items`)
-        .then((res) => {
-          if (sync && sync !== res.data) {
-            setSync(res.data);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          return;
-        });
-        setInterval(fo, 4000);
-      }
-      fo();
+          .get(`${server}${API}/sync?id=Items`)
+          .then((res) => {
+            if (sync && sync !== res.data) {
+              setSync(res.data);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            return;
+          });
+      }, 4000);
+      
    
   }, [setItems, sync]);
   let display = null;
@@ -123,6 +123,7 @@ function Item(props) {
         src={props.props.img ? props.props.img : noimage}
         className="card-img-top"
         alt="..."
+        draggable='false'
       />
       {props.props.discount ? (
         <div className="sale">FOR SALE {props.props.discount}%</div>
