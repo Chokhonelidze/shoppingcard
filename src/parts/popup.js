@@ -7,6 +7,11 @@ import Select from "react-select";
 var server = process.env.REACT_APP_SERVER
   ? process.env.REACT_APP_SERVER
   : "http://localhost:3000";
+
+var loginserver = process.env.REACT_APP_LOGINSERVER 
+? process.env.REACT_APP_LOGINSERVER 
+:"http://localhost:3001";
+
 var API = process.env.API ? process.env.API : "/api";
 
 function Popup(props) {
@@ -66,17 +71,33 @@ function Popup(props) {
         password,
         deposit: deposit.deposit - total,
       };
-      await axios
-        .put(`${server}${API}/account`, params)
-        .then((res) => {
+      await axios .post(`${loginserver}/login`,{"name":deposit.value,password})
+      .then((res,err) => {
+        console.log(res);
+        if(res.data.accessToken && res.data.accessToken !== ''){
+          let config = {
+            headers: {
+              Authorization: `${deposit.value} ${res.data.accessToken}`
+            }
+          }
+         axios
+          .put(`${server}${API}/account`, params,config)
+          .then((res) => {
             if(res.data.id){
                 setSuccess(true);
             }
-          setItems([]);
-        })
-        .catch((error) => {
-          setErrors(error);
-        });
+              setItems([]);
+           })
+        }
+        else {
+          setErrors([...error,"Login failed"])
+        }
+      })
+      .catch((error) => {
+        setErrors(error);
+      });
+    
+       
       await checkout();
     }
     let out = data.map((item, index) => {
