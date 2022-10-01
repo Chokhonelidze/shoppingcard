@@ -28,7 +28,6 @@ function Popup(props) {
     axios
       .get(`${server}${API}/account`)
       .then((res) => {
-        console.log(res);
         setData(res.data);
         setLoded(true);
       })
@@ -72,9 +71,9 @@ function Popup(props) {
         password,
         deposit: deposit.deposit - total,
       };
+      try{
       await axios .post(`${loginserver}/login`,{"name":deposit.value,password})
       .then((res,err) => {
-        console.log(res);
         if(res.data.accessToken && res.data.accessToken !== ''){
           let config = {
             headers: {
@@ -95,9 +94,16 @@ function Popup(props) {
         }
       })
       .catch((error) => {
+        alert("wrong password");
+        console.log(error.toJSON());
         setErrors(error);
       });
-    
+    }
+    catch(e){
+      setErrors([...error,"Login failed"]);
+      alert("wrong password");
+      window.location.reload(false);
+    }
        
       await checkout();
     }
@@ -106,15 +112,16 @@ function Popup(props) {
         return {
           value: item.name,
           label: `${item.name}  ${item.deposit} $`,
-          deposit: item.deposit ? item.deposit : 0,
-          password: "",
         };
       }
       else{
-        return "";
+        return {};
       }
     });
-
+    out = out.filter((item)=>{
+      return item.value != null;
+    });
+    console.log(deposit);
     return (
       <>
         {!success ? (
