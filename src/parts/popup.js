@@ -112,6 +112,8 @@ function Popup(props) {
         return {
           value: item.name,
           label: `${item.name}  ${item.deposit} $`,
+          deposit: item.deposit ? item.deposit : 0,
+          password: "",
         };
       }
       else{
@@ -121,7 +123,6 @@ function Popup(props) {
     out = out.filter((item)=>{
       return item.value != null;
     });
-    console.log(deposit);
     return (
       <>
         {!success ? (
