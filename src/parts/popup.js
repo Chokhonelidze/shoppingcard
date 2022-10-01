@@ -28,6 +28,7 @@ function Popup(props) {
     axios
       .get(`${server}${API}/account`)
       .then((res) => {
+        console.log(res.data);
         setData(res.data);
         setLoded(true);
       })
