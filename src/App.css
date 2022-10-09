@@ -1,3 +1,9 @@
+.card-img-top {
+  width: 220px;
+  height: 220px;
+  align-self: center;
+  margin-top: 20px;
+}
 .App {
   text-align: center;
 }
