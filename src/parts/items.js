@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import "./items.css";
 import "../App.css";
 import { CartItems, StackItems } from "../App";
 import Loading from "./loading";
